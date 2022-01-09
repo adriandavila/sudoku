@@ -1,0 +1,79 @@
+body {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background-color: #637081;
+    background-image: linear-gradient(315deg, #637081 0%, #7c98b3 74%);
+}
+
+.title {
+    color: white;
+    font-size: 3em;
+    padding-bottom: 0;
+    margin-bottom: 0.2em;
+    text-align: center;
+}
+
+/* table .mini-grid {
+    border: 3px solid;
+    border-color: transparent;
+} */
+
+table td {
+    border: 2px solid;
+    border-color: black;
+}
+
+input {
+    width:40px;
+    height: 45px;
+    text-align:center;
+    font-size: 2em;
+    font-family: Helvetica;
+    color: black;
+    background: white;
+}
+
+.gotUpdated {
+    color: rebeccapurple;
+    background-color: paleturquoise;
+}
+
+.solveButton{
+    width:100px; 
+    text-align:center;
+    background-color: #B3977C;
+    color: white;
+    cursor: pointer;
+    margin-top: 0.5em;
+}
+
+.generateButton {
+    width: 260px;
+    text-align:center;
+    background-color: #B3977C;
+    color: white;
+    cursor: pointer;
+    margin-top: 0.5em;
+}
+
+.numpad{
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
+    gap: 0.1rem;
+}
+
+.numpad button{
+    width: 100%;
+    padding: 1%;
+    margin: 0.1em;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem;
+    border-radius: 0.15rem;
+    background-color: hsl(211, 100%, 95%);
+    color: hsl(211, 100%, 40%);
+}
