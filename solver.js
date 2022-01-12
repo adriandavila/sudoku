@@ -114,16 +114,25 @@ const encodeParams = (params) =>
   .join('&');
 
 function solve() {    
-    var newBoard = { board: getBoard() }
-    $.ajax({
-        type: "POST",
-        url: "https://sugoku.herokuapp.com/solve",
-        // data: { board: JSON.stringify(board)},
-        data: encodeParams(newBoard),
-        success: callbackFunc
-    })
-    
+    // var newBoard = { board: getBoard() }
+    var newBoard = getBoard()
+    console.log(newBoard)
+    // $.ajax({
+    //     type: "POST",
+    //     url: "https://sugoku.herokuapp.com/solve",
+    //     // data: { board: JSON.stringify(board)},
+    //     data: encodeParams(newBoard),
+    //     success: callbackFunc
+    // })
+    const solved_board = customSolve(newBoard)
+    console.log(solved_board)
+    if (solved_board == false){
+        console.error("unsolvable board")
+    } else {
+        setBoard(solved_board)
+    }
 }
+
 
 function callbackFunc(response){
     console.log("response:")
@@ -146,4 +155,87 @@ function generate() {
             setBoard(response.board)
         }
     })
+}
+
+function floor_division(number,divisor) {
+    var counter = 0
+    for (let i=1 ; i < 3 ; i++){
+        if(i*3 > number){
+            return counter
+        } else {
+            counter ++
+        }
+    }
+    return counter
+}
+
+// console.log(floor_division(8,3))
+
+function possible(y,x,n,grid) {
+    for (let i=0 ; i < 9 ; i++) {
+        if (grid[y][i]===n){
+            // console.log({
+            //     x: x,
+            //     y: y,
+            //     i: i,
+            //     n: n
+            // })
+            // console.log("row not possible")
+            return false
+        }
+    }
+    for (let i=0 ; i<9 ; i++) {
+        if (grid[i][x]===n) {
+            // console.log({
+            //     x: x,
+            //     y: y,
+            //     i: i,
+            //     n: n
+            // })
+            // console.log("column not possible")
+            return false
+        }
+    }
+    
+    const x0 = floor_division(x,3)*3
+    const y0 = floor_division(y,3)*3
+    for (let i=0 ; i<3 ; i++){
+        for (let j=0 ; j<3 ; j++){
+            if (grid[y0+i][x0+j]===n){
+                // console.log({
+                //     x: x,
+                //     y: y,
+                //     i: i,
+                //     n: n
+                // })
+                // console.log("square not possible")
+                return false
+            }
+        }
+    }
+    // console.log("possible")
+    return true
+}
+
+function customSolve(grid) {
+    for(let y=0 ; y<9 ; y++){
+        for (let x=0 ; x<9 ; x++){
+            if (grid[y][x]==0){
+                for (let n=1 ; n<10 ; n++){
+                    if (possible(y,x,n,grid)){
+                        grid[y][x]=n
+                        // console.log(grid)
+                        const attempted_solution = customSolve(grid)
+                        if (attempted_solution === false){
+                            grid[y][x]=0
+                        } else {
+                            return attempted_solution
+                        }
+                    }
+                }
+                return false
+            }
+        }
+    }
+    return grid
 }
